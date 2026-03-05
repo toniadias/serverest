@@ -21,4 +21,28 @@ describe('Cadastro Usuario API', () => {
       cy.log(`Senha do usuário: ${usuario.password}`);
     });
   });
+
+  it('Não deve permitir cadastrar usuario com email já existente', () => {
+    const usuario = gerarUsuario();
+    const apiUrl = Cypress.env('apiUrl');
+
+    cy.request('POST', `${apiUrl}/usuarios`, usuario).then((response) => {
+      expect(response.status).to.eq(201);
+      cy.log(`Email cadastrado: ${usuario.email}`);
+    });
+
+    cy.request({
+      method: 'POST',
+      url: `${apiUrl}/usuarios`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: usuario,
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(400);
+      expect(response.body).to.have.property('message');
+      expect(response.body.message).to.eq('Este email já está sendo usado');
+    });
+  });
 });
