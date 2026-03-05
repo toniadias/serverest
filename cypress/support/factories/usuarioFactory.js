@@ -4,6 +4,7 @@ export function gerarUsuario() {
   return {
     nome: faker.person.fullName(),
     email: faker.internet.email(),
-    senha: faker.internet.password(),
+    password: faker.internet.password(),
+    administrador: 'true',
   };
 }
