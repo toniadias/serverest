@@ -2,25 +2,22 @@ name: Cypress Tests
 
 on:
   push:
-    branches:
-      - test
-      - main
+    branches: [test, main]
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      BASE_API: ${{ secrets.BASE_API }}
+
     steps:
-      - name: Checkout do código
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configurar Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.18
-
-      - name: Instalar dependências
+      - name: Install dependencies
         run: npm install
 
-      - name: Rodar testes Cypress
+      - name: Run Cypress tests
         run: npx cypress run
