@@ -10,5 +10,6 @@ module.exports = defineConfig({
     env: {
       apiUrl: process.env.BASE_API,
     },
+    specPattern: ['cypress/e2e/**/*.cy.js', 'cypress/api/**/*.cy.js'],
   },
 });
